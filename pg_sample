@@ -687,9 +687,7 @@ print "\n";
 
 # Disable all foreign key constraints temporarily
 print "\n";
-foreach my $table (@tables) {
-  print "ALTER TABLE $table DISABLE TRIGGER ALL;\n";
-}
+print "set session_replication_role = 'replica';\n";
 print "\n";
 
 foreach my $table (@tables) {
@@ -707,9 +705,7 @@ foreach my $table (@tables) {
 
 # Re-enable all triggers
 print "\n";
-foreach my $table (@tables) {
-  print "ALTER TABLE $table ENABLE TRIGGER ALL;\n";
-}
+print "set session_replication_role = 'origin';\n";
 print "\n";
 
 END {
