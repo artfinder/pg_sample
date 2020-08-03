@@ -30,6 +30,39 @@ PostgreSQL database named "mydb", a sample database could be constructed with:
 - pg\_dump should be in your search path (in order to dump the schema)
 - Perl DBI and DBD::Pg (>= 2.0) modules
 
+## Docker image
+
+You can build a docker image that will run pg\_sample by running:
+
+    docker build -f docker/Dockerfile .
+
+This will create an image with all dependencies installed. By mounting
+a file called limits.cfg, you can specify multiple --limits options in
+a configuration file.
+
+     docker run --rm \
+        -e PGUSER=${DB_USER} \
+        -e PGHOST=${DB_HOST} \
+        -e PGPASSWORD=${DB_PASSWORD} \
+        -e DATABASE_NAME=${DB_NAME} \
+        -v ${PWD}/limits.cfg:/database_sample/limits.cfg \
+        ${SAMPLE_IMAGE_NAME}
+
+Where limits.cfg could be something like:
+
+     	# Include all django files
+	django_migrations=*
+	django_site=*
+	django_content_type=0
+
+	# Exclude some tables we dont need data from
+	activity_*=0
+	api_*=0
+	block_ip_blockip=0
+	djcelery_*=0
+	sentry_*=0
+
+
 ## Command-line Options
 
 _dbname_
