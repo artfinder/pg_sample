@@ -1,4 +1,4 @@
-FROM postgres:9.6.8
+FROM postgres:14.1
 
 WORKDIR /database_sample/
 COPY docker/MyConfig.pm /.cpan/CPAN/MyConfig.pm
